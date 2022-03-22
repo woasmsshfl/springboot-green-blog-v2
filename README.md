@@ -1,6 +1,6 @@
 ## 블로그 V2 코드 연습
 
-### DB, User Create
+### 1. DB, User Create
 ```sql
 -- 모든 IP로 접근 가능한 유저 생성
 CREATE USER 'green'@'%' IDENTIFIED BY 'green1234';
