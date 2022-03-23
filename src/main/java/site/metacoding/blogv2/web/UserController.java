@@ -1,6 +1,9 @@
 package site.metacoding.blogv2.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +22,11 @@ public class UserController {
     }
 
     @GetMapping("/loginForm")
-    public String loginForm() {
+    public String loginForm(HttpServletRequest request, Model model) {
+
+        // 쿠키로직
+        String cookieValue = request.getHeader("Cookie");
+        
         return "user/loginForm";
     }
 }
