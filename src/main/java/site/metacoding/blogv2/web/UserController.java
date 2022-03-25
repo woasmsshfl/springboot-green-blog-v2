@@ -1,6 +1,7 @@
 package site.metacoding.blogv2.web;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,14 @@ import site.metacoding.blogv2.service.UserService;
 @Controller
 public class UserController {
     private final UserService userService;
+    private final HttpSession session;
+
+    // HTTP (WEB) 용 로그아웃 메서드
+    @GetMapping("/logout")
+    public String logout() {
+        session.invalidate();
+        return "redirect:/";
+    }
 
     // 웹브라우저 -> 회원가입 페이지 주세요!!
     // 앱 -> 회원가입 페이지 주세요!! 말이 안됨!!

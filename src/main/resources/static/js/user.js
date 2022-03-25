@@ -7,6 +7,9 @@ $('#btn-login').click(() => {
   login();
 });
 
+$('#btn-logout').click(() => {
+  logout();
+});
 // 2. 기능
 
 // username 기억하기 메서드
@@ -78,4 +81,6 @@ async function login() {
   } else {
     alert('로그인실패');
   }
+
+  // 로그아웃 메서드
 }

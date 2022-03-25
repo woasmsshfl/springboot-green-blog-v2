@@ -4,6 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,14 +37,25 @@ public class UserApiController {
             return new ResponseDto<String>(-1, "로그인실패", null);
         }
 
-        response.addHeader("Set-cookie", "remember = " + loginDto.getUsername() + "; path=/");
+        session.setAttribute("principal", userEntity);
+
+        if (loginDto.getRemember().equals("on")) {
+            System.out.println(loginDto.getRemember());
+            response.addHeader("Set-cookie", "remember = " + loginDto.getUsername() + "; path=/");
+        }
+
         // response.addHeader("Set-cookie", "remember = " + loginDto.getUsername() + "; path=/ HttpOnly");
 
         // Cookie cookie = new Cookie("remember", loginDto.getUsername());
         // cookie.setPath("/");
         // response.addCookie(cookie);
 
-        session.setAttribute("principal", userEntity);
         return new ResponseDto<String>(1, "로그인성공", null);
     }
+
+    // @GetMapping("/logout")
+    // public ResponseDto<String> logout() {
+    //     session.invalidate();
+    //     return new ResponseDto<>(1,"로그아웃", null);
+    // }
 }
