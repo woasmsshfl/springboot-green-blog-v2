@@ -81,6 +81,4 @@ async function login() {
   } else {
     alert('로그인실패');
   }
-
-  // 로그아웃 메서드
 }

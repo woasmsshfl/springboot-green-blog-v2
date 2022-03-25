@@ -17,11 +17,11 @@ public class UserController {
     private final HttpSession session;
 
     // HTTP (WEB) 용 로그아웃 메서드
-    @GetMapping("/logout")
-    public String logout() {
-        session.invalidate();
-        return "redirect:/";
-    }
+    // @GetMapping("/logout")
+    // public String logout() {
+    //     session.invalidate();
+    //     return "redirect:/";
+    // }
 
     // 웹브라우저 -> 회원가입 페이지 주세요!!
     // 앱 -> 회원가입 페이지 주세요!! 말이 안됨!!
