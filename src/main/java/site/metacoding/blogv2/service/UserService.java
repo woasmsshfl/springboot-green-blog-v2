@@ -10,11 +10,31 @@ import site.metacoding.blogv2.domain.user.User;
 import site.metacoding.blogv2.domain.user.UserRepository;
 import site.metacoding.blogv2.web.api.dto.user.JoinDto;
 import site.metacoding.blogv2.web.api.dto.user.LoginDto;
+import site.metacoding.blogv2.web.api.dto.user.UpdateDto;
 
 @RequiredArgsConstructor
 @Service // 컴포넌트 스캔시에 IoC 컨테이너에 등록됨 // 트랜잭션 관리하는 오브젝트임. 기능 모임
 public class UserService {
     private final UserRepository userRepository;
+
+    @Transactional
+    public User 회원수정(Integer id, UpdateDto updateDto) {
+        Optional<User> userOp = userRepository.findById(id);
+        // UPDATE user SET password = ?, email = ?, addr = ? WHERE id = ?
+        if (userOp.isPresent()) {
+            // 영속화된 오브젝트 수정
+            User userEntity = userOp.get();
+            userEntity.setPassword(updateDto.getPassword());
+            userEntity.setEmail(updateDto.getEmail());
+            userEntity.setAddr(updateDto.getAddr());
+            return userEntity;
+        } else {
+            throw new RuntimeException("아이디를 찾을 수 없습니다.");
+            // throw : 강제로 익셉션을 일으키는 함수
+        }
+    }
+    // 더티체킹 : 
+    // @Transactional 이 걸려있으면 @service 종료시에 변경감지하여 DB에 Update 한다.
 
     @Transactional
     public void 회원가입(JoinDto joinDto) {

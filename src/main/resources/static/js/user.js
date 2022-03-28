@@ -10,9 +10,14 @@ $('#btn-login').click(() => {
 $('#btn-logout').click(() => {
   logout();
 });
+
+$('#btn-update').click(() => {
+  update();
+});
+
 // 2. 기능
 
-// username 기억하기 메서드
+// username 기억하기 함수
 // HttpOnly 속성이 걸려있으면 안된다!
 function usernameRemember() {
   let cookies = document.cookie.split('=');
@@ -20,7 +25,7 @@ function usernameRemember() {
 }
 usernameRemember();
 
-// 회원가입 요청 메서드
+// 회원가입 요청 함수
 async function join() {
   // (1) username, password, email, addr 을 찾아서 오브젝트로 만든다.
   let joinDto = {
@@ -80,5 +85,31 @@ async function login() {
     location.href = '/';
   } else {
     alert('로그인실패');
+  }
+}
+
+// 회원 업데이트
+async function update() {
+  let id = $('#id').val();
+  let updateDto = {
+    password: $('#password').val(),
+    email: $('#email').val(),
+    addr: $('#addr').val(),
+  };
+  let response = await fetch(`/s/api/user/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(updateDto),
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+  });
+
+  let responseParse = await response.json();
+  console.log(responseParse);
+  if (responseParse.code == 1) {
+    alert('업데이트 성공');
+    location.href = `/s/user/${id}`;
+  } else {
+    alert('업데이트 실패');
   }
 }
