@@ -8,6 +8,7 @@ import site.metacoding.blogv2.config.filter.MyFilter2;
 
 // Controller, RestController, Repository, Service, Component, Configuration
 
+// @Component
 //@Configuration
 public class FilterConfig {
 

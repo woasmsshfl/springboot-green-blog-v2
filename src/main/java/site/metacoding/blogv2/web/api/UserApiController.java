@@ -49,7 +49,8 @@ public class UserApiController {
             response.addHeader("Set-cookie", "remember = " + loginDto.getUsername() + "; path=/");
         }
 
-        // response.addHeader("Set-cookie", "remember = " + loginDto.getUsername() + "; path=/ HttpOnly");
+        // response.addHeader("Set-cookie", "remember = " + loginDto.getUsername() + ";
+        // path=/ HttpOnly");
 
         // Cookie cookie = new Cookie("remember", loginDto.getUsername());
         // cookie.setPath("/");
@@ -64,18 +65,25 @@ public class UserApiController {
         session.invalidate();
         return new ResponseDto<>(1, "로그아웃", null);
     }
-    
+
     // // 회원정보
     // @GetMapping("/s/api/user/{id}")
     // public ResponseDto<?> userinfo(@PathVariable Integer id, Model model) {
-    //     User userEntity = userService.회원정보(id);
-    //     return new ResponseDto<>(1, "성공", userEntity);
+    // User userEntity = userService.회원정보(id);
+    // return new ResponseDto<>(1, "성공", userEntity);
     // }
-    
+
     // password, email, addr 만 수정가능하게 Dto를 받는다.
     // 회원정보수정
     @PutMapping("/s/api/user/{id}")
     public ResponseDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
+
+        // 세션의 아이디와 {id}를 비교
+        User principal = (User) session.getAttribute("principal");
+        if (principal.getId() != id) {
+            throw new RuntimeException("권한이 없습니다.");
+        }
+
         User userEntity = userService.회원수정(id, updateDto);
         session.setAttribute("principal", userEntity); // 세선 변경하기.
         return new ResponseDto<>(1, "성공", null);
