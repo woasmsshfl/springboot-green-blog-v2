@@ -21,21 +21,21 @@ public class UserController {
     // HTTP (WEB) 용 로그아웃 메서드
     // @GetMapping("/logout")
     // public String logout() {
-    //     session.invalidate();
-    //     return "redirect:/";
+    // session.invalidate();
+    // return "redirect:/";
     // }
 
     // HTTP (WEB) 용 회원정보수정 메서드
     // @GetMapping("/s/user/{id}")
     // public String userinfo(Model model) {
-    //     // DB에서 데이터 받아서 model에 담아서 리턴
-    //     return "user/updateForm";
+    // // DB에서 데이터 받아서 model에 담아서 리턴
+    // return "user/updateForm";
     // }
 
     @GetMapping("/s/user/{id}")
-    public String userinfo(Model model, @PathVariable Integer id) {
-        User userEntity = userService.회원정보(id);
-        model.addAttribute("user", userEntity);
+    public String userinfo(/* Model model, */ @PathVariable Integer id) {
+        // User userEntity = userService.회원정보(id);
+        // model.addAttribute("user", userEntity);
         return "user/updateForm";
     }
 

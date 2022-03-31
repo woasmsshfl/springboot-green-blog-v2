@@ -17,13 +17,7 @@ $('#btn-update').click(() => {
 
 // 2. 기능
 
-// username 기억하기 함수
-// HttpOnly 속성이 걸려있으면 안된다!
-function usernameRemember() {
-  let cookies = document.cookie.split('=');
-  $('#username').val(cookies[1]);
-}
-usernameRemember();
+
 
 // 회원가입 요청 함수
 async function join() {
