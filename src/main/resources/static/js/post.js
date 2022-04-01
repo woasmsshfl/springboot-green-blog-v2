@@ -3,6 +3,12 @@ $("#btn-write").click(() => {
     write();
 });
 
+$("#btn-delete").click(()=>{
+    deletePost();
+});
+
+
+
 // 2. 기능 함수
 async function write() {
     let writeDto = {
@@ -28,3 +34,18 @@ async function write() {
         alert("글쓰기 실패");
     }
 }
+
+async function deletePost() {
+    let postId = $("#postId").val();
+    let response = await fetch(`/s/api/post/${postId}`, {
+        method: "DELETE"
+    });
+    let responseParse = await response.json();
+    console.log(responseParse);
+        if (responseParse.code == 1) {
+                alert("삭제성공");
+                location.href = "/";
+            } else {
+                alert("삭제실패");
+            }
+        }
