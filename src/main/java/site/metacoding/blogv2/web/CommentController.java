@@ -17,8 +17,8 @@ public class CommentController {
     private final CommentService commentService;
     private final HttpSession session;
 
-    @PostMapping("/s/post/{id}/comment")
-    public String write(@PathVariable Integer postId, Comment comment) { // x-www-form~~~
+    @PostMapping("/s/post/{postId}/comment")
+    public String write(@PathVariable Integer postId, Comment comment) { // x-www-form~~
         User principal = (User) session.getAttribute("principal");
 
         comment.setUser(principal);

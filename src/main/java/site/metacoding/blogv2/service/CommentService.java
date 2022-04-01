@@ -14,8 +14,9 @@ import site.metacoding.blogv2.domain.post.PostRepository;
 @RequiredArgsConstructor
 @Service
 public class CommentService {
-    public final CommentRepository commentRepository;
-    public final PostRepository postRepository;
+    private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
+    // 서비스 DI 하면 안됨
 
     @Transactional
     public void 댓글쓰기(Comment comment, Integer postId) {
@@ -23,10 +24,10 @@ public class CommentService {
         Optional<Post> postOp = postRepository.findById(postId);
 
         if (postOp.isPresent()) {
-            Post postEnity = postOp.get();
-            comment.setPost(postEnity);
+            Post postEntity = postOp.get();
+            comment.setPost(postEntity);
         } else {
-            throw new RuntimeException("없는 게시글에 댓글을 작성할 수 없습니다.");
+            throw new RuntimeException("없는 게시글에 댓글을 작성할 수 없습니다");
         }
 
         commentRepository.save(comment);
