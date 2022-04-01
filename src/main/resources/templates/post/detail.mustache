@@ -1,5 +1,4 @@
 {{> /layout/header}}
-
 <!-- 컨테이너 시작 -->
 <div class="container mt-3">
     <input type="hidden" id="postId" value="{{postId}}">
@@ -11,16 +10,14 @@
         <h1 id="title"></h1>
     </div>
     <hr />
-    <div class="mb-3">
-        <div class="mb-3" id="content">
-            <!-- 중괄호 3개 써야 html 태그 나옴!! 주의!! -->
-        </div>
-        <div id="auth-box" style="display: none;">
-            <a href="/s/post/1/updateForm" class="btn btn-secondary">수정</a>
-            <button id="btn-delete" class="btn btn-danger">삭제</button>
-        </div>
-        <!-- 상세정보보기 끝 -->
+    <div class="mb-3" id="content">
+        <!-- 중괄호 3개 써야 html 태그 나옴!! 주의!! -->
     </div>
+    <div id="auth-box" style="display: none;">
+        <a href="/s/post/1/updateForm" class="btn btn-secondary">수정</a>
+        <button id="btn-delete" class="btn btn-danger">삭제</button>
+    </div>
+    <!-- 상세정보보기 끝 -->
     <!-- 댓글 시작 -->
     <div class="card">
         <form action="/s/post/{{postId}}/comment" method="post">
@@ -33,52 +30,65 @@
         </form>
     </div>
     <br />
-    
     <div class="card">
         <div class="card-header"><b>댓글 리스트</b></div>
         <ul id="reply-box" class="list-group">
 
             {{#comments}}
             <li class="list-group-item d-flex justify-content-between">
-                <div>{{content}}</div>
+                <div>{{comment.content}}</div>
                 <div class="d-flex">
-                    <div class="font-italic">작성자 : {{user.username}} &nbsp;</div>
-                    <button class="badge bg-primary">삭제</button>
+                    <div class="font-italic">작성자 : {{comment.user.username}} &nbsp;</div>
+                    {{#auth}}
+                    <button class="badge bg-primary" onclick="deleteComment('{{comment.id}}');">삭제</button>
+                    {{/auth}}
                 </div>
             </li>
             {{/comments}}
-
         </ul>
     </div>
     <br />
     <!-- 댓글 끝 -->
-    <!-- 컨테이너 끝 -->
+</div>
+<!-- 컨테이너 끝 -->
 
-
-    <script src="/js/post/js"></script>
-    <script>
-        async function loading() {
-            //console.log(location.href);
-            let postId = $("#postId").val();
-            let response = await fetch(`/api/post/${postId}`);
-            let responseParse = await response.json();  // text(), json()
-            console.log(responseParse);
-            postInfoRender(responseParse);
+<script>
+    async function deleteComment(commentId) {
+        let response = await fetch(`/s/api/comment/${commentId}`, {
+            method: "DELETE"
+        });
+        let responseParse = await response.json();
+        if (responseParse.code == 1) {
+            alert("삭제 성공");
+            location.reload(); // ajax + ssr
+        } else {
+            alert("삭제 실패");
         }
+    }
+</script>
 
-        function postInfoRender(responseParse) {
-            let username = responseParse.data.post.user.username;
-            let title = responseParse.data.post.title;
-            let content = responseParse.data.post.content;
-            let auth = responseParse.data.auth; // 권한이 있는지 없는지 판단해서 true, false
-            if (auth == true) {
-                $("#auth-box").css("display", "block");
-            }
-            $("#username").text(username);
-            $("#title").text(title);
-            $("#content").html(content);
+<script src="/js/post.js"></script>
+<script>
+    async function loading() {
+        //console.log(location.href);
+        let postId = $("#postId").val();
+        let response = await fetch(`/api/post/${postId}`);
+        let responseParse = await response.json();  // text(), json()
+        console.log(responseParse);
+        postInfoRender(responseParse);
+    }
+    function postInfoRender(responseParse) {
+        let username = responseParse.data.post.user.username;
+        let title = responseParse.data.post.title;
+        let content = responseParse.data.post.content;
+        let auth = responseParse.data.auth; // 권한이 있는지 없는지 판단해서 true, false
+        if (auth == true) {
+            $("#auth-box").css("display", "block");
         }
-        loading();
-    </script>
-
-    {{> /layout/footer}}
+        $("#username").text(username);
+        $("#title").text(title);
+        $("#content").html(content);
+    }
+    loading();
+</script>
+{{> /layout/footer}}
