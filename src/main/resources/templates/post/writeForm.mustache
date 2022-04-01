@@ -11,7 +11,7 @@
         <div class="mb-3">
             <textarea id="content" rows="10" class="form-control" id="content"></textarea>
         </div>
-        <button id="btn-write" type="button" class="btn btn-primary">글쓰기</button>
+        <button id="btn-write" type="button" class="btn btn-secondary">글쓰기</button>
     </form>
     <!-- 글쓰기 폼 끝 -->
 
@@ -19,5 +19,11 @@
 <!-- 컨테이너 끝 -->
 
 <script src="/js/post.js"></script>
+
+<script>
+    $('#content').summernote({
+        height: 300
+    });
+</script>
 
 {{> /layout/footer}}

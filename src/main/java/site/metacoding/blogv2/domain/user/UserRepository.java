@@ -10,7 +10,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT * FROM user WHERE username = :username AND password = :password", nativeQuery = true)
     User mLogin(@Param("username") String username, @Param("password") String password);
 
-    // @Modifying // UPDATE 쿼리를 실행하기 위한 어노테이션
-    // @Query(value = "UPDATE user SET password = :password, email = :email, addr = :addr WHERE id = :id", nativeQuery = true)
-    // void mUpdate(@Param("password") String password, @Param("email") String email, @Param("addr") String addr, @Param("id") String id);
+    // @Modifying
+    // @Query(value = "UPDATE user SET password = :password, email = :email, addr =
+    // :addr WHERE id = :id", nativeQuery = true)
+    // void mUpdate(@Param("password") String password, @Param("email") String
+    // email, @Param("addr") String addr, @Param("id") Integer id);
 }

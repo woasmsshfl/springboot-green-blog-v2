@@ -1,6 +1,5 @@
 package site.metacoding.blogv2.web;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -18,26 +17,20 @@ public class UserController {
     private final UserService userService;
     private final HttpSession session;
 
-    // HTTP (WEB) 용 로그아웃 메서드
-    // @GetMapping("/logout")
-    // public String logout() {
-    // session.invalidate();
-    // return "redirect:/";
-    // }
-
-    // HTTP (WEB) 용 회원정보수정 메서드
-    // @GetMapping("/s/user/{id}")
-    // public String userinfo(Model model) {
-    // // DB에서 데이터 받아서 model에 담아서 리턴
-    // return "user/updateForm";
-    // }
-
+    // 앱은 이 친구 요청 할까? 아니!!
+    // 웹은 이 친구 요청해야함.
     @GetMapping("/s/user/{id}")
-    public String userinfo(/* Model model, */ @PathVariable Integer id) {
+    public String userInfo(@PathVariable Integer id /* , Model model */) {
         // User userEntity = userService.회원정보(id);
         // model.addAttribute("user", userEntity);
         return "user/updateForm";
     }
+
+    // @GetMapping("/logout")
+    // public String logout() {
+    // session.invalidate(); // 세션 무효화 (세션 아이디 영역의 데이터를 다 삭제해)
+    // return "redirect:/";
+    // }
 
     // 웹브라우저 -> 회원가입 페이지 주세요!!
     // 앱 -> 회원가입 페이지 주세요!! 말이 안됨!!
@@ -47,9 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/loginForm")
-    public String loginForm(HttpServletRequest request, Model model) {
-        // 쿠키로직
-        String cookieValue = request.getHeader("Cookie");
+    public String loginForm() {
         return "user/loginForm";
     }
 }

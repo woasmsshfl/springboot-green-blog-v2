@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import site.metacoding.blogv2.domain.user.User;
 
-// DTO : Data Transper Object (통신으로 전달하거나 받는 오브젝트를 엔티티 타입으로 변환)
+// DTO : Data Transper Object (통신으로 전달하거나 받는 오브젝트)
 
 @AllArgsConstructor
 @NoArgsConstructor

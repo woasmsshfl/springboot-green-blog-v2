@@ -27,4 +27,4 @@ async function write() {
     } else {
         alert("글쓰기 실패");
     }
-} 
+}

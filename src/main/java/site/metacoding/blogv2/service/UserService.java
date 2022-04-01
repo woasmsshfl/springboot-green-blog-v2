@@ -19,8 +19,9 @@ public class UserService {
 
     @Transactional
     public User 회원수정(Integer id, UpdateDto updateDto) {
-        Optional<User> userOp = userRepository.findById(id);
         // UPDATE user SET password = ?, email = ?, addr = ? WHERE id = ?
+        Optional<User> userOp = userRepository.findById(id); // 영속화 (디비 row를 영속성 컨텍스에 옮김)
+
         if (userOp.isPresent()) {
             // 영속화된 오브젝트 수정
             User userEntity = userOp.get();
@@ -30,23 +31,8 @@ public class UserService {
             return userEntity;
         } else {
             throw new RuntimeException("아이디를 찾을 수 없습니다.");
-            // throw : 강제로 익셉션을 일으키는 함수
         }
-    }
-    // 더티체킹 : 
-    // @Transactional 이 걸려있으면 @service 종료시에 변경감지하여 DB에 Update 한다.
-
-    @Transactional
-    public void 회원가입(JoinDto joinDto) {
-        // save하면 db에 insert하고 insert된 결과를 다시 return 해준다.
-        userRepository.save(joinDto.toEntity());
-    }
-
-    public User 로그인(LoginDto loginDto) {
-        // 로그인 처리 쿼리를 JPA에서 제공해주지 않아서 mLogin 메서드를 직접 만들어야 한다.
-        User userEntity = userRepository.mLogin(loginDto.getUsername(), loginDto.getPassword());
-        return userEntity;
-    }
+    } // 트랜잭션이 걸려있으면 @Service 종료시에 변경감지해서 디비에 update함 = 더티체킹
 
     public User 회원정보(Integer id) {
         Optional<User> userOp = userRepository.findById(id);
@@ -55,9 +41,21 @@ public class UserService {
             return userOp.get();
         } else {
             throw new RuntimeException("아이디를 찾을 수 없습니다.");
-            // throw : 강제로 익셉션을 일으키는 함수
         }
-        // User userEntity = userRepository.findById(id).get();
-        // return userEntity;
+    }
+
+    @Transactional
+    public void 회원가입(JoinDto joinDto) {
+        // save하면 db에 insert하고 insert된 결과를 다시 return 해준다.
+
+        userRepository.save(joinDto.toEntity());
+
+    }
+
+    public User 로그인(LoginDto loginDto) {
+        // 로그인 처리 쿼리를 JPA에서 제공해주지 않는다.
+        // SELECT * FROM user WHERE username=:username AND password = :password
+        User userEntity = userRepository.mLogin(loginDto.getUsername(), loginDto.getPassword());
+        return userEntity;
     }
 }
